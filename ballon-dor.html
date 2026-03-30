@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ballon d'Or</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+    }
+
+    .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+      overflow: hidden;
+      text-align: center;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      margin: 10px 0 5px;
+      color: #e8a410;
+    }
+
+    .card-content h4 {
+      margin: 10px 0 5px;
+      color: #2e7d32;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 40px;
+      font-weight: bold;
+      color: #2e7d32;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .profile-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto 10px;
+        border: 2px solid #4CAF50;
+    }
+
+    .profile-container h2 {
+        margin: 0;
+    }
+
+    .page-tabs {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .page-tabs .tab {
+        display: inline-block;
+        padding: 10px 30px;
+        margin: 0 10px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .page-tabs .tab:hover {
+        background-color: #45a049;
+    }
+
+    .page-tabs .tab.active {
+        background-color: #2e7d32;
+    }
+
+    .kupalar {
+        display: none; /* Başlangıçta gizli */
+        text-align: left;
+        margin-top: 10px;
+        padding-left: 20px;
+    }
+
+    .kupalar li {
+        margin-bottom: 5px;
+    }
+
+    @media (max-width: 600px) {
+        .card-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <img src="profil.jpg" alt="Umut Ceylan" class="profile-img">
+    <h2>Umut Ceylan</h2>
+  </div>
+
+  <div class="page-tabs">
+      <a href="kariyer.html" class="tab">Kariyer</a>
+      <a href="istatistikler.html" class="tab">İstatistikler</a>
+      <a href="profil.html" class="tab">Profil</a>
+      <a href="kupalar.html" class="tab">Kupalar</a>
+      <a href="ballon-dor.html" class="tab active">Ballon d'Or</a>
+  </div>
+
+  <div class="card-container">
+
+
+    <div class="card" onclick="toggleListe(this)">
+      <img src="ballondor.png" alt="1">
+      <div class="card-content">
+        <h3>2027-2028</h3><h3>Tottenham</h3>
+        <ul class="kupalar">
+          <li><h4>UEFA Europa Leauge</h4></li>
+          <li><h4>UEFA Super Cup</h4></li>
+          <li><h4>Premier Leauge</h4></li>
+          <li><h4>FA Cup</h4></li>
+          <li><h4>Community Shield</h4></li>
+          <li><h4>Carabao Cup</h4></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleListe(this)">
+      <img src="ballondor.png" alt="2">
+      <div class="card-content">
+        <h3>2028-2029</h3><h3>Tottenham</h3>
+        <ul class="kupalar">
+          <li><h4>Champions Leauge</h4></li>
+          <li><h4>UEFA Super Cup</h4></li>
+          <li><h4>Premier Leauge</h4></li>
+          <li><h4>FA Cup</h4></li>
+          <li><h4>Community Shield</h4></li>
+          <li><h4>Carabao Cup</h4></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleListe(this)">
+      <img src="ballondor.png" alt="3">
+      <div class="card-content">
+        <h3>2029-2030</h3><h3>Tottenham</h3>
+        <ul class="kupalar">
+          <li><h4>Premier Leauge</h4></li>
+          <li><h4>Community Shield</h4></li>
+        </ul>
+      </div>
+     </div>
+
+     <div class="card" onclick="toggleListe(this)">
+      <img src="ballondor.png" alt="4">
+      <div class="card-content">
+        <h3>2030-2031</h3><h3>Tottenham</h3>
+        <ul class="kupalar">
+          <li><h4>Champions Leauge</h4></li>
+          <li><h4>UEFA Super Cup</h4></li>
+          <li><h4>Premier Leauge</h4></li>
+          <li><h4>FA Cup</h4></li>
+          <li><h4>Community Shield</h4></li>
+        </ul>
+      </div>
+     </div>
+
+     <div class="card" onclick="toggleListe(this)">
+      <img src="ballondor.png" alt="5">
+      <div class="card-content">
+        <h3>2032-2033</h3><h3>Juventus</h3>
+        <ul class="kupalar">
+          <li><h4>Serie A</h4></li>
+          <li><h4>Supercoppa Italiana</h4></li>
+          <li><h4>Coppa Italia</h4></li>
+        </ul>
+      </div>
+     </div>
+
+     <div class="card" onclick="toggleListe(this)">
+      <img src="ballondor.png" alt="6">
+      <div class="card-content">
+        <h3>2033-2034</h3><h3>Juventus</h3>
+        <ul class="kupalar">
+          <li><h4>UEFA World Cup</h4></li>
+          <li><h4>Champions Leauge</h4></li>
+          <li><h4>UEFA Super Cup</h4></li>
+          <li><h4>Serie A</h4></li>
+          <li><h4>Supercoppa Italiana</h4></li>
+          <li><h4>Coppa Italia</h4></li>
+        </ul>
+      </div>
+     </div>
+
+
+
+  </div>
+  
+  
+
+  <script>
+    function toggleListe(card) {
+      const liste = card.querySelector(".kupalar");
+      liste.style.display = liste.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+</html>

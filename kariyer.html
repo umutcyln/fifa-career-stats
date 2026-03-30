@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Kariyer Tablosu</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        padding: 20px;
+    }
+
+    .profile-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto 10px;
+        border: 2px solid #4CAF50;
+    }
+
+    .profile-container h2 {
+        margin: 0;
+    }
+
+    .page-tabs {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .page-tabs .tab {
+        display: inline-block;
+        padding: 10px 30px;
+        margin: 0 10px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .page-tabs .tab:hover {
+        background-color: #45a049;
+    }
+
+    .page-tabs .tab.active {
+        background-color: #2e7d32;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+        border: 1px solid #ccc;
+        text-align: center;
+        padding: 10px;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:hover {
+        background-color: #e6ffe6;
+    }
+    .team-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    .team-cell img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    /* Alt toplam kutusu */
+    .totals {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        text-align: center;
+        font-weight: bold;
+        color: #2e7d32;
+    }
+
+    @media (max-width: 600px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+        th {
+            display: none;
+        }
+        td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+            border: none;
+            border-bottom: 1px solid #ccc;
+        }
+        td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: 10px;
+            width: 45%;
+            padding-right: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+        .team-cell {
+            justify-content: flex-start;
+        }
+        .team-cell img {
+            margin-right: 5px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="profile-container">
+    <img src="profil.jpg" alt="Umut Ceylan" class="profile-img">
+    <h2>Umut Ceylan</h2>
+</div>
+
+<div class="page-tabs">
+    <a href="kariyer.html" class="tab active">Kariyer</a>
+    <a href="istatistikler.html" class="tab">İstatistikler</a>
+    <a href="profil.html" class="tab">Profil</a>
+    <a href="kupalar.html" class="tab">Kupalar</a>
+    <a href="ballon-dor.html" class="tab">Ballon d'Or</a>
+</div>
+
+<table>
+    <tr>
+        <th>Sezon</th>
+        <th>Takım</th>
+        <th>👕</th>
+        <th>⚽</th>
+        <th>👟</th>
+        <th>🟨</th>
+        <th>🟥</th>
+    </tr>
+     <tr>
+        <td data-label="Sezon">34/35</td>
+        <td data-label="Takım" class="team-cell"><img src="juventus.png" alt="Juventus">Juventus</td>
+        <td data-label="👕">56</td>
+        <td data-label="⚽">87</td>
+        <td data-label="👟">30</td>
+        <td data-label="🟨">9</td>
+        <td data-label="🟥">0</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">33/34</td>
+        <td data-label="Takım" class="team-cell"><img src="juventus.png" alt="Juventus">Juventus</td>
+        <td data-label="👕">59</td>
+        <td data-label="⚽">68</td>
+        <td data-label="👟">23</td>
+        <td data-label="🟨">4</td>
+        <td data-label="🟥">2</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">32/33</td>
+        <td data-label="Takım" class="team-cell"><img src="juventus.png" alt="Juventus">Juventus</td>
+        <td data-label="👕">59</td>
+        <td data-label="⚽">86</td>
+        <td data-label="👟">40</td>
+        <td data-label="🟨">5</td>
+        <td data-label="🟥">1</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">31/32</td>
+        <td data-label="Takım" class="team-cell"><img src="tottenham.png" alt="Tottenham">Tottenham</td>
+        <td data-label="👕">49</td>
+        <td data-label="⚽">57</td>
+        <td data-label="👟">33</td>
+        <td data-label="🟨">10</td>
+        <td data-label="🟥">2</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">30/31</td>
+        <td data-label="Takım" class="team-cell"><img src="tottenham.png" alt="Tottenham">Tottenham</td>
+        <td data-label="👕">61</td>
+        <td data-label="⚽">102</td>
+        <td data-label="👟">40</td>
+        <td data-label="🟨">4</td>
+        <td data-label="🟥">0</td>
+    </tr>
+      <tr>
+        <td data-label="Sezon">29/30</td>
+        <td data-label="Takım" class="team-cell"><img src="tottenham.png" alt="Tottenham">Tottenham</td>
+        <td data-label="👕">56</td>
+        <td data-label="⚽">74</td>
+        <td data-label="👟">23</td>
+        <td data-label="🟨">2</td>
+        <td data-label="🟥">1</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">28/29</td>
+        <td data-label="Takım" class="team-cell"><img src="tottenham.png" alt="Tottenham">Tottenham</td>
+        <td data-label="👕">62</td>
+        <td data-label="⚽">88</td>
+        <td data-label="👟">27</td>
+        <td data-label="🟨">10</td>
+        <td data-label="🟥">1</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">27/28</td>
+        <td data-label="Takım" class="team-cell"><img src="tottenham.png" alt="Tottenham">Tottenham</td>
+        <td data-label="👕">64</td>
+        <td data-label="⚽">81</td>
+        <td data-label="👟">37</td>
+        <td data-label="🟨">7</td>
+        <td data-label="🟥">0</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">26/27</td>
+        <td data-label="Takım" class="team-cell"><img src="tottenham.png" alt="Tottenham">Tottenham</td>
+        <td data-label="👕">63</td>
+        <td data-label="⚽">68</td>
+        <td data-label="👟">34</td>
+        <td data-label="🟨">5</td>
+        <td data-label="🟥">0</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">25/26</td>
+        <td data-label="Takım" class="team-cell"><img src="liverpool.png" alt="Liverpool">Liverpool</td>
+        <td data-label="👕">60</td>
+        <td data-label="⚽">38</td>
+        <td data-label="👟">28</td>
+        <td data-label="🟨">3</td>
+        <td data-label="🟥">1</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">24/25</td>
+        <td data-label="Takım" class="team-cell"><img src="realmadrid.webp" alt="Real Madrid">Real Madrid</td>
+        <td data-label="👕">59</td>
+        <td data-label="⚽">51</td>
+        <td data-label="👟">50</td>
+        <td data-label="🟨">1</td>
+        <td data-label="🟥">0</td>
+    </tr>
+    <tr>
+        <td data-label="Sezon">23/24</td>
+        <td data-label="Takım" class="team-cell"><img src="galatasaray.png" alt="Galatasaray">Galatasaray</td>
+        <td data-label="👕">48</td>
+        <td data-label="⚽">35</td>
+        <td data-label="👟">25</td>
+        <td data-label="🟨">2</td>
+        <td data-label="🟥">0</td>
+    </tr>
+</table>
+
+</body>
+</html>
