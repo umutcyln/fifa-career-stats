@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Profil Sayfası</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    /* Ana alan */
+    .main-row {
+        max-width: 1100px;
+        margin: 0 auto;
+        position: relative; /* saha için referans */
+        text-align: center; /* tablo ortada */
+    }
+
+    .radar-wrap {
+        position: absolute;
+        right: 50%; /* Ekranın ortasını referans al */
+        transform: translateX(-380px); /* Tablonun solundan 30px boşluk kalacak şekilde sola it */
+        top: 0;
+        width: 300px;
+        background: linear-gradient(145deg, #ffffff, #f1f8f7);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Mobilde taşmayı önleme */
+    @media (max-width: 900px) {
+        .radar-wrap {
+            position: static;
+            transform: none;
+            margin: 0 auto 20px auto; 
+        }
+    }
+
+    .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        width: 700px;
+        margin: 0 auto; /* tablo ortada */
+    }
+
+    .profile-card {
+        background: linear-gradient(145deg, #ffffff, #f1f8f7);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .profile-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .profile-card h4 { margin: 0 0 10px 0; color: #4CAF50; }
+    .profile-card p { margin: 0; font-weight: bold; color: #333; }
+
+    .pitch-wrap {
+        position: absolute;
+        left: 60%; /* tablo ortasına göre başla */
+        transform: translateX(380px); /* tablo yarısı + boşluk */
+        top: 0;
+    }
+
+    .pitch {
+        width: 300px;
+        height: 440px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        border-radius: 8px;
+        background: transparent;
+    }
+
+    @media (max-width: 900px) {
+        .main-row {
+            text-align: center;
+        }
+        .pitch-wrap {
+            position: static;
+            transform: none;
+            margin-top: 20px;
+        }
+        .profile-grid { width: 90%; }
+        .pitch { width: 90%; height: auto; }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="profile-container">
+    <img src="img/profil.jpg" alt="Umut Ceylan" class="profile-img">
+    <h2>Umut Ceylan</h2>
+</div>
+
+<div class="page-tabs">
+    <a href="kariyer.html" class="tab">Kariyer</a>
+    <a href="istatistikler.html" class="tab">İstatistikler</a>
+    <a href="profil.html" class="tab active">Profil</a>
+    <a href="kupalar.html" class="tab">Kupalar</a>
+    <a href="ballon-dor.html" class="tab">Ballon d'Or</a>
+</div>
+
+<div class="main-row">
+
+    <!-- SOL: Radar Grafiği -->
+    <div class="radar-wrap">
+        <h4 style="text-align: center; color: #4CAF50; margin-top: 0; margin-bottom: 25px;">Oyuncu Yetenekleri</h4>
+        
+        <div style="position: relative; width: 100%; height: 300px; display: flex; justify-content: center; align-items: center;">
+            
+            <!-- Grafiğin çizileceği tuval -->
+            <canvas id="radarChart"></canvas>
+            
+            <!-- Ortadaki 94 -->
+            <div style="position: absolute; width: 35px; height: 35px; background: rgb(201, 252, 255); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: #333; box-shadow: 0 0 5px rgba(0,0,0,0.3); z-index: 2;">
+                94
+            </div>
+        </div>
+    </div>
+
+    <!-- Profil tablosu -->
+    <div class="profile-grid">
+        <div class="profile-card"><h4>Ülke</h4><p>İngiltere</p></div>
+        <div class="profile-card"><h4>Forma Numarası</h4><p>7</p></div>
+        <div class="profile-card"><h4>Doğum Tarihi</h4><p>29 Ekim 2003 ( Yaş 33 )</p></div>
+        <div class="profile-card"><h4>Boy & Kilo</h4><p>1.87 m , 90 kg</p></div>
+        <div class="profile-card"><h4>Pozisyon</h4><p>Forvet</p></div>
+        <div class="profile-card"><h4>Ayak</h4><p>Sağ</p></div>
+        <div class="profile-card"><h4>Kulüp</h4><p>Galatasaray</p></div>
+        <div class="profile-card"><h4>Piyasa Değeri</h4><p>115.5 Milyon €</p></div>
+        <div class="profile-card"><h4>Ballon d'Or</h4><p>7</p></div>
+        <div class="profile-card"><h4>Kupa</h4><p>51</p></div>
+    </div>
+
+    <!-- Saha -->
+    <div class="pitch-wrap">
+        <svg class="pitch" viewBox="0 0 68 105" xmlns="http://www.w3.org/2000/svg">
+            <!-- Yeşil saha -->
+            <rect x="0" y="0" width="68" height="105" rx="2" ry="2" fill="#2e4a3a"/>
+            <rect x="3" y="3" width="62" height="99" fill="none" stroke="#fff" stroke-width="0.9"/>
+            <line x1="3" y1="52.5" x2="65" y2="52.5" stroke="#fff" stroke-width="0.7"/>
+            <circle cx="34" cy="52.5" r="8.5" fill="none" stroke="#fff" stroke-width="0.6"/>
+            <rect x="19" y="3" width="30" height="16" fill="none" stroke="#fff" stroke-width="0.7"/>
+            <rect x="19" y="86" width="30" height="16" fill="none" stroke="#fff" stroke-width="0.7"/>
+            <rect x="27" y="3" width="14" height="6" fill="none" stroke="#fff" stroke-width="0.6"/>
+            <rect x="27" y="96" width="14" height="6" fill="none" stroke="#fff" stroke-width="0.6"/>
+            <circle cx="34" cy="12" r="0.6" fill="#fff"/>
+            <circle cx="34" cy="93" r="0.6" fill="#fff"/>
+
+            <!-- Pozisyon vurguları tek renk -->
+            <rect x="3" y="3" width="16" height="50" fill="rgba(0,200,0,0.8)"/>
+            <rect x="19" y="3" width="30" height="17" fill="rgba(0,200,0,0.8)"/>
+            <rect x="49" y="3" width="16" height="50" fill="rgba(0,120,0,0.6)"/>
+            <rect x="19" y="20" width="30" height="18" fill="rgba(0,120,0,0.6)"/>
+        </svg>
+    </div>
+
+</div>
+
+<script>
+    const radarCtx = document.getElementById('radarChart').getContext('2d');
+    new Chart(radarCtx, {
+        type: 'radar', // Grafiği polarArea'dan radar'a çevirdik
+        data: {
+            // Etiketleri klasik futbol oyunu sırasına dizdik (Saat yönünde)
+            labels: ['HIZ 84', 'ŞUT 98', 'PAS 68', 'DRİ 91', 'DEF 35', 'FİZ 86'],
+            datasets: [{
+                data: [84, 98, 68, 91, 35, 86], // Veriler etiketlerle birebir eşleşti
+                backgroundColor: 'rgba(0, 191, 255, 0.5)', // İçi şeffaf mavi dolgu
+                borderColor: 'rgba(0, 191, 255, 1)', // Dış kenar çizgisi
+                borderWidth: 2,
+                pointBackgroundColor: '#1e293b', // Köşe noktalarının rengi
+                pointRadius: 4 // Köşe noktalarının büyüklüğü
+            }]
+        },
+        options: {
+            layout: {
+                padding: 10 // Grafiğin ekrana rahat oturması için boşluk
+            },
+            scales: {
+                r: {
+                    min: 0,
+                    max: 100,
+                    ticks: { display: false },
+                    grid: { color: 'rgba(0,0,0,0.1)' },
+                    angleLines: { color: 'rgba(0,0,0,0.2)' }, // Merkezden köşelere giden ağ çizgileri
+                    pointLabels: {
+                        display: true,
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        color: '#333'
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false } 
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

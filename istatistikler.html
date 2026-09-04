@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>İstatistikler</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    .charts { display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 30px auto; }
+    .chart-container { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .totals { max-width: 800px; margin: 20px auto; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; font-weight: bold; color: #2e7d32; cursor: pointer; transition: 0.3s; }
+    .totals:hover { background-color: #ffffff; transform: scale(1.02); box-shadow: 0 0 12px rgba(0,0,0,0.4); }
+    #teamTotals { display:none; max-width: 800px; margin: 10px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+    .team-list { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .team-box { width: 260px; background: #eee; padding: 12px; border-radius: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 0 6px rgba(0,0,0,0.1); }
+    .team-box img { width: 40px; height: 40px; object-fit: contain; }
+    .team-box .info { font-size: 14px; line-height: 18px; font-weight: bold; color: #2e7d32; }
+</style>
+</head>
+<body>
+
+<div class="profile-container">
+    <img src="img/profil.jpg" alt="Umut Ceylan" class="profile-img">
+    <h2>Umut Ceylan</h2>
+</div>
+
+<div class="page-tabs">
+    <a href="kariyer.html" class="tab">Kariyer</a>
+    <a href="istatistikler.html" class="tab active">İstatistikler</a>
+    <a href="profil.html" class="tab">Profil</a>
+    <a href="kupalar.html" class="tab">Kupalar</a>
+    <a href="ballon-dor.html" class="tab">Ballon d'Or</a>
+</div>
+
+<div class="totals" id="totalsBox"></div>
+
+<div id="teamTotals">
+    <div class="team-list" id="teamList"></div>
+</div>
+
+<div class="charts">
+    <div class="chart-container">
+        <canvas id="statsChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="contributionChart"></canvas>
+    </div>
+</div>
+
+<!-- Chart.js ve Kendi Veritabanımız -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="data.js"></script>
+
+<script>
+// data.js dosyasındaki verileri eskiden yeniye doğru sıralıyoruz (Grafik sağa doğru gitsin diye)
+const reversedData = [...kariyerVerileri].reverse();
+
+// Artık dizileri elle yazmıyoruz, otomatik olarak data.js'den çekiyoruz
+const seasons  = reversedData.map(d => d.sezon);
+const maclar   = reversedData.map(d => d.mac);
+const goller   = reversedData.map(d => d.gol);
+const asistler = reversedData.map(d => d.asist);
+const takimlar = reversedData.map(d => d.takim);
+
+const logo = {
+    "Galatasaray": "img/logolar/galatasaray.png",
+    "Realmadrid": "img/logolar/realmadrid.webp",
+    "Liverpool": "img/logolar/liverpool.png",
+    "Tottenham": "img/logolar/tottenham.png",
+    "Juventus": "img/logolar/juventus.png"
+};
+
+document.getElementById("totalsBox").innerText =
+    `Toplam: ${maclar.reduce((a,b)=>a+b)} Maç | ${goller.reduce((a,b)=>a+b)} Gol | ${asistler.reduce((a,b)=>a+b)} Asist`;
+
+function takimToplamlari() {
+    const toplamlar = {};
+    reversedData.forEach(d => {
+        const t = d.takim;
+        if (!toplamlar[t]) toplamlar[t] = { mac:0, gol:0, asist:0 };
+        toplamlar[t].mac   += d.mac;
+        toplamlar[t].gol   += d.gol;
+        toplamlar[t].asist += d.asist;
+    });
+    return toplamlar;
+}
+
+function guncelleTakimListesi() {
+    const data = takimToplamlari();
+    const div = document.getElementById("teamList");
+    div.innerHTML = "";
+    for (const takim in data) {
+        div.innerHTML += `
+            <div class="team-box">
+                <img src="${logo[takim]}">
+                <div class="info">
+                    ${takim}<br>
+                    ${data[takim].mac} Maç | ${data[takim].gol} Gol | ${data[takim].asist} Asist
+                </div>
+            </div>
+        `;
+    }
+}
+
+const totalsBox = document.getElementById("totalsBox");
+const teamTotals = document.getElementById("teamTotals");
+
+totalsBox.addEventListener("click", () => {
+    const isHidden = window.getComputedStyle(teamTotals).display === "none";
+    if (isHidden) {
+        guncelleTakimListesi();
+        teamTotals.style.display = "block";
+    } else {
+        teamTotals.style.display = "none";
+    }
+});
+
+const statsCtx = document.getElementById('statsChart').getContext('2d');
+new Chart(statsCtx, {
+    type: 'line',
+    data: {
+        labels: seasons,
+        datasets: [
+            {
+                label: 'Goller',
+                data: goller,
+                borderColor: 'red',
+                backgroundColor: 'rgba(255,0,0,0.2)',
+                fill: true,
+                tension: 0.3
+            },
+            {
+                label: 'Asistler',
+                data: asistler,
+                borderColor: 'blue',
+                backgroundColor: 'rgba(0,0,255,0.2)',
+                fill: true,
+                tension: 0.3
+            }
+        ]
+    }
+});
+
+const katkilar = goller.map((g, i) => ((g + asistler[i]) / maclar[i]).toFixed(2));
+const contribCtx = document.getElementById('contributionChart').getContext('2d');
+new Chart(contribCtx, {
+    type: 'line',
+    data: {
+        labels: seasons,
+        datasets: [{
+            label: 'Maç Başına Gole Katkı',
+            data: katkilar,
+            borderColor: 'green',
+            backgroundColor: 'rgba(76,175,80,0.2)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5
+        }]
+    }
+});
+</script>
+</body>
+</html>

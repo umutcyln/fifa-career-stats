@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Kupalar</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.top-area {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.cups-row {
+    width: 100%;
+    max-width: 1100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.filter-container {
+    position: absolute;
+    left: -200px;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filter-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    min-width: 180px;
+    position: relative;
+}
+
+.filter-btn:hover { background-color: #45a049; }
+.filter-btn.active { background-color: #2e7d32; }
+
+.filter-btn .team-logo{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: contain;
+    background-color: white;
+}
+
+.filter-btn .flag{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: white;
+}
+
+.content {
+    flex: 0 0 800px;
+}
+
+.cups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.cup-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cup-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.cup-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.cup-card h3 {
+    margin: 5px 0;
+    font-size: 1.1em;
+    color: #4CAF50;
+}
+
+.kupalar {
+    display: none;
+    text-align: left;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.kupalar li { margin-bottom: 0%; }
+
+.cup-popup {
+    position: absolute;
+    top: 0;
+    left: 95%;
+    height: 100%;
+    background-color: #e8a410;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    border-radius: 0 10px 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    z-index: 10;
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.cup-popup.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+@media (max-width: 900px) {
+    .cups-row { flex-direction: column; align-items: center; }
+    .filter-container { position: static; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    .filter-btn { min-width: 120px; font-size: 14px; padding: 8px 10px; }
+    .filter-btn img { width: 24px; height: 24px; }
+    .content { flex: 1 1 100%; max-width: 100%; }
+    .cup-popup {
+        left: 50%;
+        top: -100%;
+        height: auto;
+        border-radius: 8px;
+        padding: 5px 10px;
+        transform: translate(-50%, 10px);
+    }
+    .cup-popup.show { transform: translate(-50%, 0); }
+}
+</style>
+</head>
+<body>
+
+<div class="top-area">
+    <div class="profile-container">
+        <img src="img/profil.jpg" alt="Umut Ceylan" class="profile-img">
+        <h2>Umut Ceylan</h2>
+    </div>
+
+    <div class="page-tabs">
+        <a href="kariyer.html" class="tab">Kariyer</a>
+        <a href="istatistikler.html" class="tab">İstatistikler</a>
+        <a href="profil.html" class="tab">Profil</a>
+        <a href="kupalar.html" class="tab active">Kupalar</a>
+        <a href="ballon-dor.html" class="tab">Ballon d'Or</a>
+    </div>
+</div>
+
+<div class="cups-row">
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterCups('all', this)">Hepsi </button>
+        <button class="filter-btn" onclick="filterCups('Galatasaray', this)">
+            <img src="img/logolar/galatasaray.png" alt="Galatasaray" class="team-logo" > Galatasaray
+        </button>
+        <button class="filter-btn" onclick="filterCups('Realmadrid', this)">
+            <img src="img/logolar/realmadrid.webp" alt="Real Madrid" class="team-logo"> Real Madrid
+        </button>
+        <button class="filter-btn" onclick="filterCups('Liverpool', this)">
+            <img src="img/logolar/liverpool.png" alt="Liverpool" class="team-logo"> Liverpool
+        </button>
+        <button class="filter-btn" onclick="filterCups('Tottenham', this)">
+            <img src="img/logolar/tottenham.png" alt="Tottenham" class="team-logo"> Tottenham
+        </button>
+        <button class="filter-btn" onclick="filterCups('Juventus', this)">
+            <img src="img/logolar/juventus.png" alt="Juventus" class="team-logo"> Juventus
+        </button>
+        <button class="filter-btn" onclick="filterCups('İngiltere', this)">
+            <img src="img/logolar/ingiltere.png" alt="İngiltere" class="flag"> İngiltere
+        </button>
+    </div>
+
+    <div class="content">
+        <div class="cups-grid">
+
+<!-- UEFA World Cup -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/worldcup.png" alt="UEFA World Cup">
+    <h3>1x UEFA World Cup</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="İngiltere"><h5>İngiltere 33/34</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Şampiyonlar Ligi -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/CL.webp" alt="Şampiyonlar Ligi">
+    <h3>7x Champions League</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Juventus"><h5>Juventus 34/35</h5></li>
+            <li data-team="Juventus"><h5>Juventus 33/34</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 30/31</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 28/29</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 27/28</h5></li>
+            <li data-team="Liverpool"><h5>Liverpool 25/26</h5></li>
+            <li data-team="Realmadrid"><h5>Realmadrid 24/25</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- UEFA Super Cup -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/USuper.webp" alt="UEFA Super Cup">
+    <h3>5x UEFA Super Cup</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Juventus"><h5>Juventus 34/35</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 31/32</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 30/31</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 28/29</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 27/28</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- UEFA Europa League -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/UEL.7_WkEEPeotqGycnNsf3MKAHaHa" alt="UEFA Europa League">
+    <h3>1x UEFA Europa League</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Tottenham"><h5>Tottenham 26/27</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- UEFA Euro Cup -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/euro.webp" alt="UEFA Euro Cup">
+    <h3>2x UEFA Euro Cup</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="İngiltere"><h5>İngiltere 35/36</h5></li>
+            <li data-team="İngiltere"><h5>İngiltere 31/32</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Premier League -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/premier.cOdByQR6Msk2Hc7flsTSqQHaHa" alt="Premier League">
+    <h3>7x Premier League</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Tottenham"><h5>Tottenham 31/32</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 30/31</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 29/30</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 28/29</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 27/28</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 26/27</h5></li>
+            <li data-team="Liverpool"><h5>Liverpool 25/26</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- FA Cup -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/FA.j9mvUwtNQylhh3yKlycG1AHaK0" alt="FA Cup">
+    <h3>4x FA Cup</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Tottenham"><h5>Tottenham 30/31</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 28/29</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 27/28</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 26/27</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Community Shield -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/com.png" alt="Community Shield">
+    <h3>5x Community Shield</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Tottenham"><h5>Tottenham 31/32</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 30/31</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 29/30</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 28/29</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 27/28</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Carabao Cup -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/carabao.png" alt="Carabao Cup">
+    <h3>4x Carabao Cup</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Tottenham"><h5>Tottenham 28/29</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 27/28</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 26/27</h5></li>
+            <li data-team="Liverpool"><h5>Liverpool 25/26</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- La Liga -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/laliga.png" alt="La Liga">
+    <h3>1x La Liga</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Realmadrid"><h5>Realmadrid 24/25</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Supercopa -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/scopa.NRcYcwRczerWw3Qc1PGmIAHaHo" alt="Supercopa">
+    <h3>1x Supercopa</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Realmadrid"><h5>Realmadrid 24/25</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Copa de España -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/espana.png" alt="Copa de España">
+    <h3>1x Copa de España</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Realmadrid"><h5>Realmadrid 24/25</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Serie A -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/SERIEA.jpg" alt="SERIE A">
+    <h3>3x SERIE A</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Juventus"><h5>Juventus 34/35</h5></li>
+            <li data-team="Juventus"><h5>Juventus 33/34</h5></li>
+            <li data-team="Juventus"><h5>Juventus 32/33</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Supercoppa Italiana -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/supercoppa.png" alt="Supercoppa Italiana">
+    <h3>3x Supercoppa Italiana</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Juventus"><h5>Juventus 34/35</h5></li>
+            <li data-team="Juventus"><h5>Juventus 33/34</h5></li>
+            <li data-team="Juventus"><h5>Juventus 32/33</h5></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Coppa Italia -->
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/coppaitalia.jpg" alt="Coppa Italia">
+    <h3>3x Coppa Italia</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Juventus"><h5>Juventus 34/35</h5></li>
+            <li data-team="Juventus"><h5>Juventus 33/34</h5></li>
+            <li data-team="Juventus"><h5>Juventus 32/33</h5></li>
+        </ul>
+    </div>
+</div>
+
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/superlig.png" alt="Süper Lig">
+    <h3>1x Süper Lig</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Galatasaray"><h5>Galatasaray 35/36</h5></li>
+        </ul>
+    </div>
+</div>
+
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/trkupa.webp" alt="Türkiye Kupası">
+    <h3>1x Türkiye Kupası</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Galatasaray"><h5>Galatasaray 35/36</h5></li>
+        </ul>
+    </div>
+</div>
+
+<div class="cup-card" onclick="toggleListe(this)">
+    <img src="img/kupalar/trsuperkupa.jpg" alt="Türkiye Süper Kupa">
+    <h3>1x Türkiye Süper Kupa</h3>
+    <div class="card-content">
+        <ul class="kupalar">
+            <li data-team="Galatasaray"><h5>Galatasaray 35/36</h5></li>
+        </ul>
+    </div>
+</div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleListe(card) {
+    const liste = card.querySelector(".kupalar");
+    if (liste) {
+        liste.style.display = liste.style.display === "block" ? "none" : "block";
+    }
+}
+
+function filterCups(team, btn) {
+    const cards = document.querySelectorAll(".cup-card");
+    
+    document.querySelectorAll(".filter-btn").forEach(b => {
+        b.classList.remove("active");
+        const existingPopup = b.querySelector(".cup-popup");
+        if (existingPopup) existingPopup.remove();
+    });
+
+    btn.classList.add("active");
+    let totalCups = 0; 
+
+    cards.forEach(card => {
+        const kupalar = card.querySelectorAll(".kupalar li");
+        let anyVisible = false;
+
+        kupalar.forEach(li => {
+            if(team === "all" || li.dataset.team.toLowerCase() === team.toLowerCase()) {
+                li.style.display = "list-item";
+                anyVisible = true;
+                totalCups++; 
+            } else {
+                li.style.display = "none";
+            }
+        });
+
+        const h3 = card.querySelector("h3");
+        if(h3) {
+            const baseText = h3.textContent.replace(/^\d+x /, "");
+            const visibleCount = Array.from(kupalar).filter(li => li.style.display !== "none").length;
+            h3.textContent = `${visibleCount}x ${baseText}`;
+        }
+
+        card.style.display = anyVisible ? "block" : "none";
+    });
+
+    const popup = document.createElement("span");
+    popup.className = "cup-popup";
+    popup.textContent = totalCups; 
+    btn.appendChild(popup);
+    
+    setTimeout(() => { popup.classList.add("show"); }, 10);
+}
+
+window.onload = () => {
+    const hepsiBtn = document.querySelector(".filter-btn.active");
+    if(hepsiBtn) {
+        filterCups('all', hepsiBtn);
+    }
+};
+</script>
+</body>
+</html>

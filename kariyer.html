@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Kariyer Tablosu</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    table { border-collapse: collapse; width: 100%; max-width: 800px; margin: auto; background-color: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    th, td { border: 1px solid #ccc; text-align: center; padding: 10px; }
+    th { background-color: #4CAF50; color: white; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    tr:hover { background-color: #e6ffe6; }
+    .team-cell { display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .team-cell img { width: 40px; height: 40px; object-fit: contain; }
+
+    @media (max-width: 600px) {
+        table, thead, tbody, th, td, tr { display: block; }
+        th { display: none; }
+        td { text-align: right; padding-left: 50%; position: relative; border: none; border-bottom: 1px solid #ccc; }
+        td::before { content: attr(data-label); position: absolute; left: 10px; width: 45%; padding-right: 10px; font-weight: bold; text-align: left; }
+        .team-cell { justify-content: flex-start; }
+        .team-cell img { margin-right: 5px; }
+    }
+
+    tr:not(:first-child) { cursor: pointer; }
+
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 1000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+    .modal-overlay.show { display: flex; opacity: 1; }
+    .modal-box { background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; position: relative; transform: translateY(-20px); transition: transform 0.3s ease; }
+    .modal-overlay.show .modal-box { transform: translateY(0); }
+    .modal-close { position: absolute; top: 15px; right: 20px; font-size: 24px; font-weight: bold; color: #888; cursor: pointer; transition: 0.2s; }
+    .modal-close:hover { color: #d32f2f; }
+    .modal-season { font-size: 1.2em; color: #4CAF50; font-weight: bold; margin-bottom: 10px; margin-top: 0; }
+    .modal-rating { font-size: 3em; font-weight: bold; color: #e8a410; margin: 10px 0; }
+    .modal-comment { font-size: 1.1em; color: #444; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="profile-container">
+    <img src="img/profil.jpg" alt="Umut Ceylan" class="profile-img">
+    <h2>Umut Ceylan</h2>
+</div>
+
+<div class="page-tabs">
+    <a href="kariyer.html" class="tab active">Kariyer</a>
+    <a href="istatistikler.html" class="tab">İstatistikler</a>
+    <a href="profil.html" class="tab">Profil</a>
+    <a href="kupalar.html" class="tab">Kupalar</a>
+    <a href="ballon-dor.html" class="tab">Ballon d'Or</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Sezon</th>
+            <th>Takım</th>
+            <th>👕</th>
+            <th>⚽</th>
+            <th>👟</th>
+            <th>🟨</th>
+            <th>🟥</th>
+            <th>⭐</th>
+        </tr>
+    </thead>
+    <tbody id="careerTableBody">
+        <!-- Satırlar data.js üzerinden otomatik oluşturulacak -->
+    </tbody>
+</table>
+
+<div id="seasonModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <span class="modal-close" onclick="closeModal(event)">&times;</span>
+        <h3 id="modalSeason" class="modal-season"></h3>
+        <div id="modalRating" class="modal-rating"></div>
+        <p id="modalComment" class="modal-comment"></p>
+    </div>
+</div>
+
+<!-- Veritabanımızı projeye bağlıyoruz -->
+<script src="data.js"></script>
+<script>
+// Modal İçerik Verileri
+const seasonData = {
+    "36/37": { title: "Makine Hâlâ Çalışıyor", desc: "Sezon henüz çok yeni olduğu için tam puan verilemez ama formundan hiçbir şey kaybetmediğin ortada." },
+    "35/36": { title: "Kralın Yuvaya Dönüşü", desc: "Yuvaya krallar gibi döndüğün sezon ( Baba Come Back! ). 30'lu yaşların ortasında Süper Lig'de 75 gol atmak harika bir kapanış veya 'ikinci bahar' hikayesi." },
+    "34/35": { title: "Taçsız Kralın İsyanı", desc: "Kariyerinin en çok maça (68) çıktığın sezonu. 30'lu yaşlarında tekrar 100 gol barajına dayanmışsın. Ballon d'Or verilmemiş olması muhtemelen oyunun sana yaptığı en büyük haksızlık." },
+    "33/34": { title: "Dünyanın Zirvesinde", desc: "İstatistikler bir tık gerilese de, bir oyuncunun kazanabileceği en büyük kupa olan Dünya Kupası'nı (İngiltere ile) kazanman bu sezonu efsaneler arasına sokuyor." },
+    "32/33": { title: "Çizme'nin Yeni Hakimi", desc: "İtalya'ya gidip yepyeni bir ligde anında şov yapmak ve dünyanın en iyisi ödülünü geri almak gerçek efsanelerin işidir. Muazzam bir 'Geri Dönüş' sezonu." },
+    "31/32": { title: "Yorgun Savaşçı", desc: "Maç sayının 49'a düşmesi, kariyerinin en yüksek kart oranına ulaşman, yorgunluk ve agresifliğin arttığını gösteriyor. 102 gollük sezondan sonraki fizyolojik çöküş yılı." },
+    "30/31": { title: "Mutlak Zirve", desc: "Bir sezonda 102 gol atmak oyun tarihinde bile ender görülen insanlık dışı bir başarıdır. Kariyerinin mutlak zirvesi, futbol tarihine geçen kusursuz sezon." },
+    "29/30": { title: "Altın Çağ", desc: "Standartlarına göre maç ve asist sayın hafif düşmüş olsa da üst üste üçüncü kez dünyanın en iyisi seçilmek inanılmaz bir istikrar." },
+    "28/29": { title: "Kusursuz Fetih", desc: "Gollerinle sahada fırtınalar estirirken, kulübünle kazanabileceğin tüm kupaları silip süpürdüğün kusursuz fetih sezonu." },
+    "27/28": { title: "Taç Giyme Töreni", desc: "Bireysel olarak zirveye çıktığın ve dünyada 1 numara olduğunu tescillediğin kusursuz bir sezon. Kariyerinin ilk Ballon d'Or'u!" },
+    "26/27": { title: "Kuzeyin Kralı", desc: "Kuzey Londra'da dominasyonun başladığı yıl. Bir önceki yıla göre gol sayını neredeyse ikiye katlayarak Ada futboluna tamamen hükmetmeye başlamışsın." },
+    "25/26": { title: "Fırtına Öncesi Sessizlik", desc: "Kariyer ortalamanın en altlarında kaldığın, bireysel olarak en sessiz geçen yıl. Yine de Şampiyonlar Ligi ve Premier Lig kazanman standartlarının ne kadar yüksek olduğunu gösteriyor." },
+    "24/25": { title: "Kusursuz Senfoni", desc: "Tek kelimeyle kusursuz bir uyum. 50 gol ve 50 asist barajını aynı anda geçmek (double-double) bir futbol mucizesidir." },
+    "23/24": { title: "Efsanenin Doğuşu", desc: "Profesyonel kariyere harika bir başlangıç. Maç sayısından daha fazla gole katkı yapmışsın. Kendini kanıtladığın ve devlerin dikkatini çektiğin o ilk parlama sezonu." }
+};
+
+const logoMap = {
+    "Galatasaray": "img/logolar/galatasaray.png",
+    "Realmadrid": "img/logolar/realmadrid.webp",
+    "Liverpool": "img/logolar/liverpool.png",
+    "Tottenham": "img/logolar/tottenham.png",
+    "Juventus": "img/logolar/juventus.png"
+};
+
+// Renk Belirleme Fonksiyonu
+function getRatingColor(rating) {
+    if (rating === "-") return "#9e9e9e";
+    let puan = parseFloat(rating);
+    if (puan === 10) return "#00E5FF";
+    if (puan >= 9.0) return "#2196F3";
+    if (puan >= 8.0) return "#4CAF50";
+    if (puan >= 7.5) return "#FFC107";
+    if (puan >= 7.0) return "#FF5722";
+    return "#F44336";
+}
+
+// Tabloyu data.js ile Dolduran Otomatik Döngü
+window.onload = () => {
+    const tbody = document.getElementById("careerTableBody");
+    
+    kariyerVerileri.forEach(data => {
+        const tr = document.createElement("tr");
+        tr.onclick = () => openModal(data.sezon, data.reyting);
+        
+        const ratingColor = getRatingColor(data.reyting);
+        const ratingWeight = data.reyting !== "-" ? "bold" : "normal";
+        
+        tr.innerHTML = `
+            <td data-label="Sezon">${data.sezon}</td>
+            <td data-label="Takım" class="team-cell"><img src="${logoMap[data.takim]}" alt="${data.takim}">${data.takim}</td>
+            <td data-label="👕">${data.mac}</td>
+            <td data-label="⚽">${data.gol}</td>
+            <td data-label="👟">${data.asist}</td>
+            <td data-label="🟨">${data.sari}</td>
+            <td data-label="🟥">${data.kirmizi}</td>
+            <td data-label="⭐" style="color: ${ratingColor}; font-weight: ${ratingWeight};">${data.reyting}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+};
+
+function openModal(season, rating) {
+    document.getElementById("modalSeason").textContent = season + " Sezonu Özeti";
+    const ratingEl = document.getElementById("modalRating");
+    ratingEl.textContent = rating === "-" ? "⭐ ?" : "⭐ " + rating;
+    ratingEl.style.color = getRatingColor(rating);
+    
+    const data = seasonData[season];
+    if (data) {
+        document.getElementById("modalComment").innerHTML = `
+            <strong style="font-size: 1.25em; color: #1e293b; display: block; margin-bottom: 10px;">"${data.title}"</strong>
+            ${data.desc}
+        `;
+    } else {
+        document.getElementById("modalComment").innerHTML = "Bu sezon için henüz bir değerlendirme yapılmadı.";
+    }
+    
+    const modal = document.getElementById("seasonModal");
+    modal.style.display = "flex";
+    setTimeout(() => { modal.classList.add("show"); }, 10);
+}
+
+function closeModal(event) {
+    if (event) event.preventDefault();
+    const modal = document.getElementById("seasonModal");
+    modal.classList.remove("show");
+    setTimeout(() => { modal.style.display = "none"; }, 300);
+}
+</script>
+</body>
+</html>
