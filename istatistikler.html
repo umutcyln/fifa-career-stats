@@ -55,11 +55,13 @@
 const reversedData = [...kariyerVerileri].reverse();
 
 // Artık dizileri elle yazmıyoruz, otomatik olarak data.js'den çekiyoruz
-const seasons  = reversedData.map(d => d.sezon);
-const maclar   = reversedData.map(d => d.mac);
-const goller   = reversedData.map(d => d.gol);
-const asistler = reversedData.map(d => d.asist);
-const takimlar = reversedData.map(d => d.takim);
+const seasons    = reversedData.map(d => d.sezon);
+const maclar     = reversedData.map(d => d.mac);
+const goller     = reversedData.map(d => d.gol);
+const asistler   = reversedData.map(d => d.asist);
+const sarilar    = reversedData.map(d => d.sari);
+const kirmizilar = reversedData.map(d => d.kirmizi);
+const takimlar   = reversedData.map(d => d.takim);
 
 const logo = {
     "Galatasaray": "img/logolar/galatasaray.png",
@@ -70,16 +72,18 @@ const logo = {
 };
 
 document.getElementById("totalsBox").innerText =
-    `Toplam: ${maclar.reduce((a,b)=>a+b)} Maç | ${goller.reduce((a,b)=>a+b)} Gol | ${asistler.reduce((a,b)=>a+b)} Asist`;
+    `Toplam: ${maclar.reduce((a,b)=>a+b)} Maç | ${goller.reduce((a,b)=>a+b)} Gol | ${asistler.reduce((a,b)=>a+b)} Asist | 🟨 ${sarilar.reduce((a,b)=>a+b)} | 🟥 ${kirmizilar.reduce((a,b)=>a+b)}`;
 
 function takimToplamlari() {
     const toplamlar = {};
     reversedData.forEach(d => {
         const t = d.takim;
-        if (!toplamlar[t]) toplamlar[t] = { mac:0, gol:0, asist:0 };
-        toplamlar[t].mac   += d.mac;
-        toplamlar[t].gol   += d.gol;
-        toplamlar[t].asist += d.asist;
+        if (!toplamlar[t]) toplamlar[t] = { mac:0, gol:0, asist:0, sari:0, kirmizi:0 };
+        toplamlar[t].mac     += d.mac;
+        toplamlar[t].gol     += d.gol;
+        toplamlar[t].asist   += d.asist;
+        toplamlar[t].sari    += d.sari;
+        toplamlar[t].kirmizi += d.kirmizi;
     });
     return toplamlar;
 }
@@ -94,7 +98,8 @@ function guncelleTakimListesi() {
                 <img src="${logo[takim]}">
                 <div class="info">
                     ${takim}<br>
-                    ${data[takim].mac} Maç | ${data[takim].gol} Gol | ${data[takim].asist} Asist
+                    ${data[takim].mac} Maç | ${data[takim].gol} Gol | ${data[takim].asist} Asist<br>
+                    <span style="font-size: 12px; color: #555;">🟨 ${data[takim].sari} Sarı | 🟥 ${data[takim].kirmizi} Kırmızı</span>
                 </div>
             </div>
         `;

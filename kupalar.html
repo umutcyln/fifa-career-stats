@@ -13,60 +13,61 @@
 
 .cups-row {
     width: 100%;
-    max-width: 1100px;
-    position: relative;
+    max-width: 1000px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
     margin: 0 auto;
 }
 
 .filter-container {
-    position: absolute;
-    left: -200px;
-    top: 0;
+    position: static;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
 }
 
 .filter-btn {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 8px 16px;
+    border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 16px;
-    min-width: 180px;
-    position: relative;
+    gap: 8px;
+    font-size: 14px;
+    min-width: auto;
 }
 
 .filter-btn:hover { background-color: #45a049; }
 .filter-btn.active { background-color: #2e7d32; }
 
-.filter-btn .team-logo{
-    width: 34px;
-    height: 34px;
+.filter-btn .team-logo {
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     object-fit: contain;
     background-color: white;
 }
 
-.filter-btn .flag{
-    width: 34px;
-    height: 34px;
+.filter-btn .flag {
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: cover; /* Bayrağın yuvarlağın tamamını doldurmasını sağlar */
     background-color: white;
 }
 
 .content {
-    flex: 0 0 800px;
+    width: 100%;
+    max-width: 900px;
 }
 
 .cups-grid {
@@ -113,30 +114,25 @@
 .kupalar li { margin-bottom: 0%; }
 
 .cup-popup {
-    position: absolute;
-    top: 0;
-    left: 95%;
-    height: 100%;
     background-color: #e8a410;
     color: white;
-    display: flex;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0 15px;
-    border-radius: 0 10px 10px 0;
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-    z-index: 10;
     opacity: 0;
-    transform: translateX(-15px);
-    transition: all 0.3s ease;
-    pointer-events: none;
+    transform: scale(0.8);
+    transition: all 0.2s ease;
 }
 
 .cup-popup.show {
     opacity: 1;
-    transform: translateX(0);
+    transform: scale(1);
 }
 
 @media (max-width: 900px) {
@@ -217,6 +213,7 @@
     <h3>7x Champions League</h3>
     <div class="card-content">
         <ul class="kupalar">
+            <li data-team="Galatasaray"><h5>Galatasaray 36/37</h5></li>
             <li data-team="Juventus"><h5>Juventus 34/35</h5></li>
             <li data-team="Juventus"><h5>Juventus 33/34</h5></li>
             <li data-team="Tottenham"><h5>Tottenham 30/31</h5></li>
@@ -236,7 +233,7 @@
         <ul class="kupalar">
             <li data-team="Juventus"><h5>Juventus 34/35</h5></li>
             <li data-team="Tottenham"><h5>Tottenham 31/32</h5></li>
-            <li data-team="Tottenham"><h5>Tottenham 30/31</h5></li>
+            <li data-team="Tottenham"><h5>Tottenham 29/30</h5></li>
             <li data-team="Tottenham"><h5>Tottenham 28/29</h5></li>
             <li data-team="Tottenham"><h5>Tottenham 27/28</h5></li>
         </ul>
@@ -403,6 +400,7 @@
     <h3>1x Süper Lig</h3>
     <div class="card-content">
         <ul class="kupalar">
+            <li data-team="Galatasaray"><h5>Galatasaray 36/37</h5></li>
             <li data-team="Galatasaray"><h5>Galatasaray 35/36</h5></li>
         </ul>
     </div>
@@ -413,6 +411,7 @@
     <h3>1x Türkiye Kupası</h3>
     <div class="card-content">
         <ul class="kupalar">
+            <li data-team="Galatasaray"><h5>Galatasaray 36/37</h5></li>
             <li data-team="Galatasaray"><h5>Galatasaray 35/36</h5></li>
         </ul>
     </div>
@@ -423,7 +422,7 @@
     <h3>1x Türkiye Süper Kupa</h3>
     <div class="card-content">
         <ul class="kupalar">
-            <li data-team="Galatasaray"><h5>Galatasaray 35/36</h5></li>
+            <li data-team="Galatasaray"><h5>Galatasaray 36/37</h5></li>
         </ul>
     </div>
 </div>

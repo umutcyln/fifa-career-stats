@@ -33,6 +33,26 @@
     .modal-season { font-size: 1.2em; color: #4CAF50; font-weight: bold; margin-bottom: 10px; margin-top: 0; }
     .modal-rating { font-size: 3em; font-weight: bold; color: #e8a410; margin: 10px 0; }
     .modal-comment { font-size: 1.1em; color: #444; line-height: 1.6; }
+
+    /* Satır üzerine gelindiğinde hafifçe sağa esneme ve gölge */
+tbody tr {
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.15s ease;
+}
+
+tbody tr:hover {
+    background-color: #f1f8f5 !important;
+    transform: scale(1.01);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.table-hint {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
+}
 </style>
 </head>
 <body>
@@ -68,6 +88,8 @@
     </tbody>
 </table>
 
+<p class="table-hint">💡 Sezon özetini ve detaylı değerlendirmeyi görmek için ilgili satıra tıklayabilirsiniz.</p>
+
 <div id="seasonModal" class="modal-overlay" onclick="closeModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
         <span class="modal-close" onclick="closeModal(event)">&times;</span>
@@ -82,9 +104,9 @@
 <script>
 // Modal İçerik Verileri
 const seasonData = {
-    "36/37": { title: "Makine Hâlâ Çalışıyor", desc: "Sezon henüz çok yeni olduğu için tam puan verilemez ama formundan hiçbir şey kaybetmediğin ortada." },
+    "36/37": { title: "Avrupa Fatihi", desc: "Sadece Süper Lig'i domine etmekle kalmayıp, Şampiyonlar Ligi'nde attığın 32 golle dünya futbol tarihine geçtin. Galatasaray formasıyla yerel üçlemeyi tamamlayıp Şampiyonlar Ligini müzeye getirdiğin, kelimenin tam anlamıyla zirvede geçen bir sezon." },
     "35/36": { title: "Kralın Yuvaya Dönüşü", desc: "Yuvaya krallar gibi döndüğün sezon ( Baba Come Back! ). 30'lu yaşların ortasında Süper Lig'de 75 gol atmak harika bir kapanış veya 'ikinci bahar' hikayesi." },
-    "34/35": { title: "Taçsız Kralın İsyanı", desc: "Kariyerinin en çok maça (68) çıktığın sezonu. 30'lu yaşlarında tekrar 100 gol barajına dayanmışsın. Ballon d'Or verilmemiş olması muhtemelen oyunun sana yaptığı en büyük haksızlık." },
+    "34/35": { title: "Taçsız Kralın İsyanı", desc: "Kariyerinin en çok maça (68) çıktığın sezonu. 30'lu yaşlarında tekrar 100 gol barajına dayanmıp tüm kupaları almışsın. Ballon d'Or verilmemiş olması muhtemelen oyunun sana yaptığı en büyük haksızlık." },
     "33/34": { title: "Dünyanın Zirvesinde", desc: "İstatistikler bir tık gerilese de, bir oyuncunun kazanabileceği en büyük kupa olan Dünya Kupası'nı (İngiltere ile) kazanman bu sezonu efsaneler arasına sokuyor." },
     "32/33": { title: "Çizme'nin Yeni Hakimi", desc: "İtalya'ya gidip yepyeni bir ligde anında şov yapmak ve dünyanın en iyisi ödülünü geri almak gerçek efsanelerin işidir. Muazzam bir 'Geri Dönüş' sezonu." },
     "31/32": { title: "Yorgun Savaşçı", desc: "Maç sayının 49'a düşmesi, kariyerinin en yüksek kart oranına ulaşman, yorgunluk ve agresifliğin arttığını gösteriyor. 102 gollük sezondan sonraki fizyolojik çöküş yılı." },
